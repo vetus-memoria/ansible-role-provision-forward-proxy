@@ -1,0 +1,11 @@
+- name: Install Squid
+  import_tasks: install-squid.yml
+
+- name: Install Squid dependencies
+  import_tasks: install-squid-dependencies.yml
+
+- name: Configure Squid
+  import_tasks: configure-squid.yml
+
+- name: Check and start the Squid service
+  import_tasks: start-squid.yml
