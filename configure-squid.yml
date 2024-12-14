@@ -1,0 +1,21 @@
+---
+- name: Create a Squid password file and add the user defined in vars
+  become: yes
+  command: htpasswd -b -c /etc/squid/passwd "{{ proxy_server_user }}" "{{ proxy_server_password }}"
+
+- name: Configure Squid using the Jinja2 template
+  become: yes
+  template:
+    src: squid.conf.j2
+    dest: /etc/squid/squid.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Restart the Squid service
+  become: yes
+  service:
+    name: squid
+    state: restarted
+    enabled: yes
+

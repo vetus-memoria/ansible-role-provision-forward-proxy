@@ -1,0 +1,29 @@
+# Squid Proxy Configuration
+
+# Port configuration
+http_port 3128
+
+# Define your IP allow-list (can user CIDR blocks)
+acl allowed_ips src 192.168.0.1/24
+
+# Basic auth implementation (with htpasswd)
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic realm Squid Proxy Server
+acl authenticated_users proxy_auth REQUIRED
+
+# Allow access for authenticated users from allowed IPs
+http_access allow allowed_ips authenticated_users
+
+# Deny all other access
+http_access deny all
+
+# Logging
+access_log /var/log/squid/access.log squid
+
+# Squid cache settings (default)
+cache_mem 256 MB
+maximum_object_size_in_memory 8 MB
+cache_dir ufs /var/spool/squid 100 16 256
+
+# DNS resolution
+dns_nameservers 8.8.8.8 8.8.4.4
