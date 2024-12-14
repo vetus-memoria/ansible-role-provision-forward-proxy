@@ -2,7 +2,7 @@
 
 This repository contains files for an Ansible role provisioning a forward proxy server on a Debian host.
 
-
+__________
 *Workflow*
 
 The role utilises the Squid application to provision a forward proxy server. Squid was chosen as it inherently supports forward proxy functionality and is easily configurable.
@@ -17,14 +17,26 @@ The role utilises the Squid application to provision a forward proxy server. Squ
      - The squid service is then restarted on the Debian target node to ensure the configuration comes into effect.
 4. The fourth playbook ensures that the Squid service has been started and is running.
 
+__________
+*Applying the role*
+
+Upload the role's directory (provision-forward-proxy-server-role) into the dedicated /roles directory in your main Ansible directory (/etc/ansible). Ensure your Ansible inventory has been configured correctly, i.e. that it contains the target node's address, the "become" password, the connection method, and any other details relevant to your setup.
+Create a new playbook for the role or add the role into an existing playbook, then execute it:
+
+ansible-playbook [your_playbook].yml
+
+*add any additional attributes to your command, if relevant.
+
+__________
 *Testing*
 
-Simply run the following curl command to test your forward proxy server:
+Run the following curl command to test your forward proxy server:
+
 curl -x [debian_target_node_address]:3128 -U [basic_auth_username]:[basic_auth_password] https://example.com/
 
 The command should return the public IP address of your server.
 
-
+___________
 *Common "gotchas"*
 
 - For improved security, it would be best to encrypt any secrets (i.e. sensitive information, such as usernames and passwords) using the ansible-vault utility.
